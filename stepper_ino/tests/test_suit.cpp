@@ -1,6 +1,6 @@
 #define ARDUINO_VERBOSE_LEVEL 2
 #include "arduino_env.h"
-#include "..\strategy.h"
+#include "..\modes.h"
 #include "QUnit.hpp"
 
 
@@ -18,31 +18,10 @@ void timeStep_test()
 }
 //-------------------------------------- test strategy ------------------------------------
 
-void strategy_update_1s()
-{
-	for(int i = 0;i < 4001; ++i)
-	{
-		timeStep(250);
-		updateStrategy();
-	}
-}
-
-void strategy_cmdForwardH_test()
-{
-	initStrategy();
-	cmdSpeed1H();
-	cmdForwardH();
-	QUNIT_IS_EQUAL(motorH.microsteps(), 0);
-	strategy_update_1s();
-	QUNIT_IS_EQUAL(motorH.microsteps(), 32 * 100);
-	cmdBacwardH();
-	strategy_update_1s();
-	QUNIT_IS_EQUAL(motorH.microsteps(), 0);
-}
 
 void strategy_testSuite()
 {
-	strategy_cmdForwardH_test();
+	
 }
 //-------------------------------------- test stepper ------------------------------------
 void stepper_update_1s(Stepper& motor)
@@ -52,6 +31,23 @@ void stepper_update_1s(Stepper& motor)
 		motor.update();
 		timeStep(1000);
 	}
+}
+
+long stepper_get_stepCount_1s(Stepper& motor)
+{
+	long changeCount = 0;
+	int pinState = pinValue[motor.params().stepPin];
+	for(int i = 0;i < 1001; ++i)
+	{
+		motor.update();
+		if(pinState == LOW && pinValue[motor.params().stepPin] == HIGH)
+		{
+			changeCount ++;
+		}
+		pinState = pinValue[motor.params().stepPin];
+		timeStep(1000);
+	}
+	return changeCount;
 }
 
 void stepper_isActive_test()
@@ -75,7 +71,7 @@ void stepper_bounds_test()
 	motor.setMode(5);
 	motor.setSpeed(-256);
 	stepper_update_1s(motor);
-	QUNIT_IS_EQUAL(motor.microsteps(), params.minBoud);
+	QUNIT_IS_EQUAL(motor.microsteps(), params.minBound);
 	motor.setMode(5);
 	motor.setSpeed(256);
 	stepper_update_1s(motor);
@@ -125,6 +121,21 @@ void stepper_update_test()
 	QUNIT_IS_EQUAL(motor.microsteps(), 256 + 100 + 32 - 77 - 32);
 }
 
+void stepper_update_stepCount_test()
+{
+	const MotorParams params = {3,  2,  9,  8,  7,  6,  0,  32 * 200 * 30L};
+	Stepper motor(params); 
+	motor.setMode(0);
+	motor.setSpeed(256);
+	long stepCount = stepper_get_stepCount_1s(motor);
+	QUNIT_IS_EQUAL(stepCount, 256 / 32);
+
+	motor.setMode(5);
+	motor.setSpeed(256);
+	stepCount = stepper_get_stepCount_1s(motor);
+	QUNIT_IS_EQUAL(stepCount, 256);
+}
+
 void stepper_testSuite()
 {
 	timeStep_test();
@@ -132,6 +143,7 @@ void stepper_testSuite()
 	//stepper_update2_test();
 	stepper_isActive_test();
 	stepper_bounds_test();
+	stepper_update_stepCount_test();
 }
 
 void testSuite()

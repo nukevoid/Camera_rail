@@ -1,10 +1,9 @@
-#include "phisical_point.h"
 
 struct MotorParams
 {
     int stepPin, dirPin, disablePin;
     int mode0Pin, mode1Pin, mode2Pin;
-    long minBoud, maxBound;
+    long minBound, maxBound;
 };
 
 
@@ -20,7 +19,6 @@ public:
     :params_(params)
     ,microsteps_(0)
     ,modeCfc_(1)
-    //,target_(0)
     ,speed_(0)
     ,stepSign_(0)
     ,lastStepTime_(0)
@@ -44,22 +42,22 @@ public:
         setMode(DEFAULT_MODE);
     }
 
+    inline const MotorParams& params() const 
+    {
+        return params_;
+    }
+
     void resetMicrosteps(long microsteps)
     {
         microsteps_ = microsteps;
     }
 
-    //void setTarget(long target)
-    //{
-    //    target_ = target;
-    //}
-
-    long microsteps() const
+    inline long microsteps() const
     {
         return microsteps_;
     }
 
-    void setSpeed(long microstepsInSec)
+    inline void setSpeed(long microstepsInSec)
     {
         if(microstepsInSec != speed_)
         {
@@ -69,7 +67,7 @@ public:
         }
     }
 
-    long speed() const 
+    inline long speed() const 
     {
         return speed_;
     }
@@ -94,7 +92,7 @@ public:
         return micros() - lastStepTime_ < SLEEP_TIMEOUT;
     }
 
-    void update()
+    inline void update()
     {
         if( needStep() )
         {
@@ -104,7 +102,7 @@ public:
     }
 
 private:
-    inline long motorDelay(long speed, int modeCfc) const
+    inline long motorDelay(long speed, long modeCfc) const
     {
         if(speed != 0)
         {
@@ -132,7 +130,7 @@ private:
 
     inline bool inBounds(long microsteps) const 
     {
-        return microsteps < params_.maxBound && microsteps >= params_.minBoud;
+        return microsteps < params_.maxBound && microsteps >= params_.minBound;
     }
 
     inline void motorMicrostep()
@@ -149,12 +147,11 @@ private:
 
     inline void motorStep()
     {
-        int delta = speed_ > 0 ? stepSign_ : -stepSign_;
+        long delta = speed_ > 0 ? stepSign_ : -stepSign_;
         delta *= MAX_MICROSTEPS / modeCfc_;
         if(inBounds(microsteps_ + delta))
         {
             microsteps_ += delta;
-            //Serial.print(delta);
             motorMicrostep();
         }
     }
@@ -162,10 +159,9 @@ private:
 private:
     const MotorParams& params_;
     long microsteps_;
-    int modeCfc_;
-    //long target_;
+    long modeCfc_;
     long speed_;
-    int stepSign_;
+    long stepSign_;
     unsigned long lastStepTime_;
     long motorDelay_;
 };
