@@ -14,7 +14,7 @@ public:
     inline void update()
     {
         long newSpeed = speed_.value(millis());
-        newSpeed = boundSpeed(newSpeed);
+        //newSpeed = boundSpeed(newSpeed);
         motor_.setSpeed(newSpeed);
     }
 
@@ -30,12 +30,12 @@ public:
 
     void forward()
     {
-        setTargetSpeed(-selectedSpeed_);
+        setTargetSpeed(selectedSpeed_);
     }
 
     void backward()
     {
-        setTargetSpeed(selectedSpeed_);
+        setTargetSpeed(-selectedSpeed_);
     }
 
     void stop()
@@ -70,7 +70,7 @@ private:
     typedef LineFader<long> SpeedFader;
     SpeedFader speed_;
     long selectedSpeed_;
-    Stepper motor_;
+    Stepper & motor_;
     long borderSize_;
     long speedChangeTime_;
     long maxSpeed_;

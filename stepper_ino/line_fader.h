@@ -20,7 +20,7 @@ public:
             return target_;
         }else 
         {
-            return start_ + (target_ - start_) * timeLeft / duration_;
+            return start_ + (target_ - start_) * (T)timeLeft / (T)duration_;
         }
     }
 

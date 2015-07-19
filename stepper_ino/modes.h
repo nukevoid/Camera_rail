@@ -7,15 +7,16 @@
 typedef void(*ModeType) ();
 ModeType mainMode = NULL;
 const long REV = Stepper::MAX_MICROSTEPS * Stepper::STEP_COUNT;
-
-const MotorParams MP_HORIZONTAL =   {3,  2,  9,  8,  7,  6,  0,  REV * 30L};//stepPin, dirPin, disablePin, mode0Pin, mode1Pin, mode2Pin, stepCount, minBound, maxBound;
+//stepPin, dirPin, disablePin, mode0Pin, mode1Pin, mode2Pin, stepCount, minBound, maxBound;
+const MotorParams MP_HORIZONTAL =   {3,  2,  9,  8,  7,  6,  0,  REV * 30L};
 const MotorParams MP_ROTATION =     {5,  4,  0, -1, -1, -1,  0,  REV * 5L};
 Stepper motorHorizontal(MP_HORIZONTAL);
 Stepper motorRotation(MP_ROTATION);
 
 AcceleratedMoving accHorizontal(motorHorizontal, REV * 3L, 2000, REV * 3);
 AcceleratedMoving accRotation(motorHorizontal,  REV* 3L, 2000, REV * 2);
-TrackedMoving trackedRotation(motorRotation, motorHorizontal, REV * 2, 1000, 1000, (MP_HORIZONTAL.minBound + MP_HORIZONTAL.maxBound) / 2);
+const long trackedX = (MP_HORIZONTAL.minBound + MP_HORIZONTAL.maxBound) / 2;
+TrackedMoving trackedRotation(motorRotation, motorHorizontal, REV * 2, 1000, 1000, trackedX);
 
 //---------------------------- Modes -----------------------------
 void OnlyHorizontalMode()

@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"pri",
+				"private"
+			],
+			[
+				"motor",
+				"motor_"
+			],
+			[
 				"spe",
 				"speed_"
 			],
@@ -39,7 +47,7 @@
 			"file": "stepper.h",
 			"settings":
 			{
-				"buffer_size": 3748,
+				"buffer_size": 3685,
 				"line_ending": "Unix"
 			}
 		},
@@ -47,15 +55,23 @@
 			"file": "stepper_ino.ino",
 			"settings":
 			{
-				"buffer_size": 1675,
+				"buffer_size": 468,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "debug.h",
+			"file": "ir_mapping.h",
 			"settings":
 			{
-				"buffer_size": 0,
+				"buffer_size": 1621,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "tests/test_suit.cpp",
+			"settings":
+			{
+				"buffer_size": 3702,
 				"line_ending": "Windows"
 			}
 		},
@@ -68,19 +84,35 @@
 			}
 		},
 		{
-			"file": "tests/testSuit.cpp",
+			"file": "modes.h",
 			"settings":
 			{
-				"buffer_size": 3330,
+				"buffer_size": 1735,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "accelerated_moving.h",
+			"settings":
+			{
+				"buffer_size": 1895,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "strategy.h",
+			"file": "tracked_moving.h",
 			"settings":
 			{
-				"buffer_size": 2099,
-				"line_ending": "Unix"
+				"buffer_size": 1134,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "line_fader.h",
+			"settings":
+			{
+				"buffer_size": 809,
+				"line_ending": "Windows"
 			}
 		},
 		{
@@ -89,14 +121,6 @@
 			{
 				"buffer_size": 341,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "phisical_point.h",
-			"settings":
-			{
-				"buffer_size": 900,
-				"line_ending": "Windows"
 			}
 		},
 		{
@@ -164,6 +188,9 @@
 	],
 	"file_history":
 	[
+		"/D/ARM/Arduino/Projects/Stepper_Board/stepper_ino/debug.h",
+		"/D/ARM/Arduino/Projects/Stepper_Board/stepper_ino/phisical_point.h",
+		"/D/ARM/Arduino/Projects/Stepper_Board/stepper_ino/tests/arduino_env.h",
 		"/D/ARM/Arduino/Projects/Stepper_Board/stepper_ino/tests/QUnit.hpp",
 		"/C/Users/a_filonichev/Google Drive/Projects/Arduino/Projects/stepper_ino/tests/QUnit.hpp",
 		"/C/Users/a_filonichev/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
@@ -278,6 +305,17 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"motorR",
+			"motorH",
+			"MP_R",
+			"MP_H",
+			"TrackingStrategy",
+			"AcceleratedStrategy",
+			"SimpleStrategy",
+			"16736925",
+			"minBoud",
+			"BORDER_SIZE",
+			"motorH_",
 			"H",
 			"build",
 			"bui",
@@ -342,11 +380,12 @@
 			"aiting.show"
 		],
 		"highlight": true,
-		"in_selection": true,
+		"in_selection": false,
 		"preserve_case": false,
 		"regex": false,
 		"replace_history":
 		[
+			"motor_",
 			"R",
 			"speed_",
 			""
@@ -360,7 +399,7 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -369,45 +408,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3748,
+						"buffer_size": 3685,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1226,
-								1226
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "stepper_ino.ino",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1675,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								561,
-								572
+								896,
+								896
 							]
 						],
 						"settings":
@@ -424,106 +433,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "debug.h",
+					"buffer": 1,
+					"file": "stepper_ino.ino",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 0,
+						"buffer_size": 468,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "tests/arduino_env.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2969,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1941,
-								1941
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "tests/testSuit.cpp",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3330,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								782,
-								782
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "strategy.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2099,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								562,
-								562
+								334,
+								343
 							]
 						],
 						"settings":
@@ -536,11 +459,215 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "ir_mapping.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1621,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								650,
+								650
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
+					"buffer": 3,
+					"file": "tests/test_suit.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3702,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								768,
+								768
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 810.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "tests/arduino_env.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2969,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								250,
+								250
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "modes.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1735,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1376,
+								1376
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 107.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
 					"buffer": 6,
+					"file": "accelerated_moving.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1895,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								323,
+								323
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": -0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "tracked_moving.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1134,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								941,
+								941
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "line_fader.h",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 809,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
 					"file": "leds.h",
 					"semi_transient": false,
 					"settings":
@@ -562,45 +689,15 @@
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": -0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "phisical_point.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 900,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								484,
-								484
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 10,
 					"file": "tests/Makefile",
 					"semi_transient": false,
 					"settings":
@@ -624,7 +721,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 10,
 					"type": "text"
 				}
 			]

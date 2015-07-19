@@ -5,25 +5,7 @@
 
 
 QUnit::UnitTest qunit(std::cerr, QUnit::verbose);
-
-//-------------------------------------- test arduino_evn ------------------------------------
-void timeStep_test()
-{
-	localTimeMs = 0;
-	for(int i = 0;i < 1000; ++i)
-	{
-		timeStep(1000);
-	}
-	QUNIT_IS_EQUAL(localTimeMs, 1000 * 1000);
-}
-//-------------------------------------- test strategy ------------------------------------
-
-
-void strategy_testSuite()
-{
-	
-}
-//-------------------------------------- test stepper ------------------------------------
+//-------------------------------------- utils -----------------------------------------------
 void stepper_update_1s(Stepper& motor)
 {
 	for(int i = 0;i < 1001; ++i)
@@ -49,6 +31,121 @@ long stepper_get_stepCount_1s(Stepper& motor)
 	}
 	return changeCount;
 }
+
+//-------------------------------------- test arduino_evn ------------------------------------
+void arduino_env_millis_test()
+{
+	localTimeMs = 0;
+	for(int i = 0;i < 1000; ++i)
+	{
+		timeStep(1000);
+	}
+	QUNIT_IS_EQUAL(millis(), 1000);
+}
+
+void arduino_env_micros_test()
+{
+	localTimeMs = 0;
+	for(int i = 0;i < 1000; ++i)
+	{
+		timeStep(1000);
+	}
+	QUNIT_IS_EQUAL(micros(), 1000 * 1000);
+}
+
+void arduino_env_test_suite()
+{
+	arduino_env_micros_test();
+	arduino_env_millis_test();
+}
+
+//-------------------------------------- test LineFader --------------------------------------
+void LineFader_test_suite()
+{
+	LineFader<long> fader(0);
+	fader.setTarget(256, 15, 1000);
+	long v = fader.value(15 + 500);
+	QUNIT_IS_EQUAL(v, 128);
+	v = fader.value(15 + 1000);
+	QUNIT_IS_EQUAL(v, 256);
+	fader.setTarget(64, 15 + 1000, 1000);
+	QUNIT_IS_EQUAL(v, 256);
+	v = fader.value(15 + 1000 + 500);
+	QUNIT_IS_EQUAL(v, (256 - 64) / 2 + 64);
+	v = fader.value(15 + 1000 + 1000);
+	QUNIT_IS_EQUAL(v, 64);
+}
+
+//-------------------------------------- test AcceleratedMoving ------------------------------
+
+void LineFader_test()
+{
+	LineFader<long> fader(0);
+	fader.setTarget(256, 15, 1000);
+	long v = fader.value(15 + 500);
+	QUNIT_IS_EQUAL(v, 128);
+	v = fader.value(15 + 1000);
+	QUNIT_IS_EQUAL(v, 256);
+	fader.setTarget(64, 15 + 1000, 1000);
+	QUNIT_IS_EQUAL(v, 256);
+	v = fader.value(15 + 1000 + 500);
+	QUNIT_IS_EQUAL(v, (256 - 64) / 2 + 64);
+	v = fader.value(15 + 1000 + 1000);
+	QUNIT_IS_EQUAL(v, 64);
+}
+
+void AcceleratedMoving_bound_test()
+{
+
+}
+
+void  AcceleratedMoving_forward_test()
+{
+	//stepPin, dirPin, disablePin, mode0Pin, mode1Pin, mode2Pin, stepCount, minBound, maxBound;
+	const MotorParams params =   {3,  2,  9,  8,  7,  6,  0,  REV * 30L};
+	Stepper motor(params);
+	AcceleratedMoving accHorizontal(motor, REV * 3L, 1000, REV * 3);
+	accHorizontal.setSpeed(256, 5);
+	accHorizontal.forward();
+	QUNIT_IS_EQUAL(motor.microsteps(), 0);
+	for(int i = 0;i < 1000; ++i)
+	{
+		accHorizontal.update();
+		motor.update();
+		timeStep(1000);
+	}
+	accHorizontal.update();
+	QUNIT_IS_EQUAL(motor.speed(), 256);
+	QUNIT_IS_EQUAL(motor.microsteps(), 256 / 2);
+	//
+	for(int i = 0;i < 1000; ++i)
+	{
+		accHorizontal.update();
+		motor.update();
+		timeStep(1000);
+	}
+	QUNIT_IS_EQUAL(motor.speed(), 256);
+	QUNIT_IS_EQUAL(motor.microsteps(), 256 / 2 + 256);
+	//backward
+	accHorizontal.backward();
+	for(int i = 0;i < 1000; ++i)
+	{
+		accHorizontal.update();
+		motor.update();
+		timeStep(1000);
+	}
+	accHorizontal.update();
+	QUNIT_IS_EQUAL(motor.speed(), -256);
+	QUNIT_IS_EQUAL(motor.microsteps(), 256 / 2 + 256);
+}
+
+void AcceleratedMoving_testSuite()
+{
+	LineFader_test();
+	AcceleratedMoving_forward_test();
+}
+//-------------------------------------- test Stepper ----------------------------------------
+
 
 void stepper_isActive_test()
 {
@@ -138,7 +235,6 @@ void stepper_update_stepCount_test()
 
 void stepper_testSuite()
 {
-	timeStep_test();
 	stepper_update_test();
 	//stepper_update2_test();
 	stepper_isActive_test();
@@ -148,7 +244,9 @@ void stepper_testSuite()
 
 void testSuite()
 {
-	strategy_testSuite();
+	LineFader_test_suite();
+	arduino_env_test_suite();
+	AcceleratedMoving_testSuite();
 	stepper_testSuite();
 }
 
