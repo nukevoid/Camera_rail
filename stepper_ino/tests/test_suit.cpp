@@ -75,6 +75,40 @@ void LineFader_test_suite()
 	v = fader.value(15 + 1000 + 1000);
 	QUNIT_IS_EQUAL(v, 64);
 }
+//-------------------------------------- test modes ------------------------------------------
+
+void modes_test_suite()
+{
+	initModes();
+	setSpeed(64, 1);
+	QUNIT_IS_EQUAL(motorHorizontal.speed(), 0);
+	accHorizontal.forward();
+	for(int i = 0;i < 20001; ++i)
+	{
+		updateModes();
+		timeStep(100);
+	}
+	QUNIT_IS_EQUAL(motorHorizontal.speed(), 64 * 32);
+	QUNIT_IS_EQUAL(motorHorizontal.microsteps(), 64 * 32);
+}
+
+//-------------------------------------- test TrackedMoving ----------------------------------
+void TrackedMoving_test_suit()
+{ 
+	const MotorParams MP_HORIZONTAL =   {3,  2,  9,  8,  7,  6,  1,  0,  REV * 30L};
+	const MotorParams MP_ROTATION =     {5,  4,  0, -1, -1, -1,  0,  0,  REV * 5L};
+	Stepper motorHorizontal(MP_HORIZONTAL);
+	Stepper motorRotation(MP_ROTATION);
+	TrackedMoving trackedRotation(motorRotation, motorHorizontal, REV * 2, REV * 4L, 0, 1000);
+
+	motorHorizontal.resetMicrosteps(1000);
+	QUNIT_IS_EQUAL(trackedRotation.trackingTarget(), REV + REV );
+
+	TrackedMoving trackedRotation2(motorRotation, motorHorizontal, REV * 2, REV * 4L, trackedX, REV * 15L);
+
+	motorHorizontal.resetMicrosteps(1000);
+	QUNIT_IS_EQUAL(trackedRotation2.trackingTarget(), REV);
+}
 
 //-------------------------------------- test AcceleratedMoving ------------------------------
 
@@ -102,7 +136,7 @@ void AcceleratedMoving_bound_test()
 void  AcceleratedMoving_forward_test()
 {
 	//stepPin, dirPin, disablePin, mode0Pin, mode1Pin, mode2Pin, stepCount, minBound, maxBound;
-	const MotorParams params =   {3,  2,  9,  8,  7,  6,  0,  REV * 30L};
+	const MotorParams params =   {3,  2,  9,  8,  7,  6,  1, 0,  REV * 30L};
 	Stepper motor(params);
 	AcceleratedMoving accHorizontal(motor, REV * 3L, 1000, REV * 3);
 	accHorizontal.setSpeed(256, 5);
@@ -143,13 +177,14 @@ void AcceleratedMoving_testSuite()
 {
 	LineFader_test();
 	AcceleratedMoving_forward_test();
+	AcceleratedMoving_bound_test();
 }
 //-------------------------------------- test Stepper ----------------------------------------
 
 
 void stepper_isActive_test()
 {
-	const MotorParams params = {3,  2,  9,  8,  7,  6,  0,  200 * 1000};
+	const MotorParams params = {3,  2,  9,  8,  7,  6,  1,  0,  200 * 1000};
 	Stepper motor(params); 
 	QUNIT_IS_FALSE(motor.isActive());
 	motor.setMode(0);
@@ -163,7 +198,7 @@ void stepper_isActive_test()
 
 void stepper_bounds_test()
 {
-	const MotorParams params = {3,  2,  9,  8,  7,  6,  -10,  200 };
+	const MotorParams params = {3,  2,  9,  8,  7,  6,  1,  -10,  200 };
 	Stepper motor(params); 
 	motor.setMode(5);
 	motor.setSpeed(-256);
@@ -178,7 +213,7 @@ void stepper_bounds_test()
 void stepper_update2_test()
 {
 	//stepPin, dirPin, disablePin, mode0Pin, mode1Pin, mode2Pin, stepCount, minBoud, maxBound;
-	const MotorParams params = {3,  2,  9,  8,  7,  6,  0,  32 * 200 * 1000};
+	const MotorParams params = {3,  2,  9,  8,  7,  6,  1,  0,  32 * 200 * 1000};
 	Stepper motor(params); 
 	motor.setMode(5);
 	motor.setSpeed(32 * 50);
@@ -193,7 +228,7 @@ void stepper_update2_test()
 void stepper_update_test()
 {
 	//stepPin, dirPin, disablePin, mode0Pin, mode1Pin, mode2Pin, stepCount, minBoud, maxBound;
-	const MotorParams params = {3,  2,  9,  8,  7,  6,  0,  200 * 1000};
+	const MotorParams params = {3,  2,  9,  8,  7,  6,  1,  0,  200 * 1000};
 	Stepper motor(params); 
 	
 	motor.setMode(0);
@@ -220,7 +255,7 @@ void stepper_update_test()
 
 void stepper_update_stepCount_test()
 {
-	const MotorParams params = {3,  2,  9,  8,  7,  6,  0,  32 * 200 * 30L};
+	const MotorParams params = {3,  2,  9,  8,  7,  6,  1, 0,  32 * 200 * 30L};
 	Stepper motor(params); 
 	motor.setMode(0);
 	motor.setSpeed(256);
@@ -244,6 +279,8 @@ void stepper_testSuite()
 
 void testSuite()
 {
+	TrackedMoving_test_suit();
+	modes_test_suite();
 	LineFader_test_suite();
 	arduino_env_test_suite();
 	AcceleratedMoving_testSuite();

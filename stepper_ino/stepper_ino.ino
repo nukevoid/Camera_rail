@@ -19,7 +19,6 @@ inline void updateIRPort()
 {
    if (irrecv.decode(&results))
     {
-        blinkB();
         onIRValue(results.value);
         irrecv.resume();
     }

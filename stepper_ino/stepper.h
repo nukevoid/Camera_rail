@@ -3,6 +3,7 @@ struct MotorParams
 {
     int stepPin, dirPin, disablePin;
     int mode0Pin, mode1Pin, mode2Pin;
+    int invert;
     long minBound, maxBound;
 };
 
@@ -62,7 +63,7 @@ public:
         if(microstepsInSec != speed_)
         {
             speed_ = microstepsInSec;
-            digitalWrite(params_.dirPin, speed_ > 0);
+            digitalWrite(params_.dirPin, (speed_ > 0) != params_.invert);
             refreshMotorDeley();
         }
     }

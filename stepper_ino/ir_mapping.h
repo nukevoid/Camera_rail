@@ -21,20 +21,20 @@
 #define BUT_19 16730805 
 #define BUT_20 16732845
 
-#define BUT(buttonId, command) case BUT_##buttonId: (command); break;
+#define BUT(buttonId, command) case BUT_##buttonId: (command); blinkB(); break;
 
 void onIRValue(int value)
 {
  	switch(value)
     { 
     	// Button matrix 
-        BUT(0,	 setMode(OnlyHorizontalMode))BUT(1, setMode(OnlyRotationMode)	)BUT(2, setMode(RotationTrackedMode))
+        BUT(0,	 setMode(DirectMode)        )BUT(1, setMode(RotationTrackedMode)	)BUT(2, setMode(DockingMode))
         BUT(3,	 accHorizontal.backward()	)BUT(4, accHorizontal.forward()		)BUT(5, accHorizontal.stop()		)
         BUT(6,	 accRotation.backward()		)BUT(7, accRotation.forward()		)BUT(8, accRotation.stop()			)
-        BUT(9,	 setSpeed(2, 5)				)BUT(10,trackedRotation.y() += 10	)BUT(11,trackedRotation.y() -= 10	)
+        BUT(9,	 setSpeed(2, 5)				)BUT(10,trackedRotation.y() -= 5000	)BUT(11,trackedRotation.y() += 5000	)
         BUT(12,	 setSpeed(4, 5)				)BUT(13,setSpeed(8, 5)				)BUT(14,setSpeed(16, 5)				)
-        BUT(15,	 setSpeed(32, 5)			)BUT(16,setSpeed(50, 5)				)BUT(17,setSpeed(70, 2)				)
-        BUT(18,	 setSpeed(100, 0)			)BUT(19,setSpeed(200, 0)			)BUT(20,setSpeed(300, 0)			)
+        BUT(15,	 setSpeed(32, 5)			)BUT(16,setSpeed(50, 5)				)BUT(17,setSpeed(70, 5)				)
+        BUT(18,	 setSpeed(200, 4)			)BUT(19,setSpeed(500, 4)			)BUT(20,setSpeed(700, 4)			)
     }
 }
 

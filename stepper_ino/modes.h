@@ -8,24 +8,20 @@ typedef void(*ModeType) ();
 ModeType mainMode = NULL;
 const long REV = Stepper::MAX_MICROSTEPS * Stepper::STEP_COUNT;
 //stepPin, dirPin, disablePin, mode0Pin, mode1Pin, mode2Pin, stepCount, minBound, maxBound;
-const MotorParams MP_HORIZONTAL =   {3,  2,  9,  8,  7,  6,  0,  REV * 30L};
-const MotorParams MP_ROTATION =     {5,  4,  0, -1, -1, -1,  0,  REV * 5L};
+const MotorParams MP_HORIZONTAL =   {3,  2,  9,  8,  7,  6,  1,  0,  REV * 30L};
+const MotorParams MP_ROTATION =     {5,  4,  0, -1, -1, -1,  0,  0,  REV * 4L};
 Stepper motorHorizontal(MP_HORIZONTAL);
 Stepper motorRotation(MP_ROTATION);
 
 AcceleratedMoving accHorizontal(motorHorizontal, REV * 3L, 2000, REV * 3);
-AcceleratedMoving accRotation(motorHorizontal,  REV* 3L, 2000, REV * 2);
+AcceleratedMoving accRotation(motorRotation,  REV * 1L, 2000, REV * 3);
 const long trackedX = (MP_HORIZONTAL.minBound + MP_HORIZONTAL.maxBound) / 2;
-TrackedMoving trackedRotation(motorRotation, motorHorizontal, REV * 2, 1000, 1000, trackedX);
+TrackedMoving trackedRotation(motorRotation, motorHorizontal, REV * 2, REV * 4L, trackedX, REV * 15L);
 
 //---------------------------- Modes -----------------------------
-void OnlyHorizontalMode()
+void DirectMode()
 {
     accHorizontal.update();
-}
-
-void OnlyRotationMode()
-{
     accRotation.update();
 }
 
@@ -33,6 +29,16 @@ void RotationTrackedMode()
 {
     accHorizontal.update();
     trackedRotation.update();
+}
+
+void DockingMode()
+{
+    accHorizontal.setSpeed(400 * Stepper::MAX_MICROSTEPS, 4);
+    accRotation.setSpeed(400 * Stepper::MAX_MICROSTEPS, 4);
+    accHorizontal.backward();
+    accRotation.backward();
+    accHorizontal.update();
+    accRotation.update();
 }
 
 //----------------------------Commands----------------------------
@@ -52,7 +58,8 @@ void initModes()
 {
     motorHorizontal.init();
     motorRotation.init();
-    setMode(OnlyHorizontalMode);
+    setMode(DirectMode);
+    setSpeed(50, 5);
 }
 
 void updateModes()

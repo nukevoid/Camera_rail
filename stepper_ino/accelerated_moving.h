@@ -14,7 +14,7 @@ public:
     inline void update()
     {
         long newSpeed = speed_.value(millis());
-        //newSpeed = boundSpeed(newSpeed);
+        newSpeed = boundSpeed(newSpeed);
         motor_.setSpeed(newSpeed);
     }
 
@@ -53,13 +53,13 @@ private:
     {
         if(speed > 0 && motor_.microsteps() > motor_.params().maxBound - borderSize_)
         {
-            long maxSpeed = motor_.microsteps() - motor_.params().maxBound + borderSize_;
+            long maxSpeed = motor_.params().maxBound - motor_.microsteps();
             maxSpeed = maxSpeed * maxSpeed_ / borderSize_;
             speed = min(speed, maxSpeed);
         }
         else if(speed < 0 && motor_.microsteps() < motor_.params().minBound + borderSize_) 
         {
-            long maxSpeed = motor_.microsteps() + motor_.params().minBound - borderSize_;
+            long maxSpeed = motor_.params().minBound - motor_.microsteps();
             maxSpeed = maxSpeed * maxSpeed_ / borderSize_;
             speed = max(speed, maxSpeed);
         }
