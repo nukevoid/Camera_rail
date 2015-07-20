@@ -47,6 +47,7 @@ uint32_t localTimeMs = 0;
 uint8_t pinModeState[PIN_COUNT];
 uint8_t pinValue[PIN_COUNT];
 
+uint32_t pinChangeCount[PIN_COUNT];
 //--------------------------- utils ----------------------------------
 void timeStep(uint32_t stepSize)
 {
@@ -94,6 +95,10 @@ void pinMode(int pin, int mode)
 
 void digitalWrite(int pin, int value)
 {
+	if(pinValue[pin] != value)
+	{
+		pinChangeCount[pin]++;
+	}
 	pinValue[pin] = value;
 	VERBOSE_3(std::cout << "digitalWrite " << pin << " " << value << std::endl);
 }
@@ -111,4 +116,9 @@ uint32_t micros()
 uint32_t millis()
 {
 	return localTimeMs / 1000;
+}
+
+void delayMicroseconds(long value)
+{
+	//localTimeMs += value;
 }
