@@ -28,7 +28,7 @@ void onIRValue(int value)
  	switch(value)
     { 
     	// Button matrix 
-        BUT(0,	 setMode(DirectMode)        )BUT(1, setMode(RotationTrackedMode)	)BUT(2, setMode(DockingMode))
+        BUT(0,	 setMode(DirectMode)        )BUT(1, setMode(RotationTrackedMode)	)BUT(2, dock() )
         BUT(3,	 accHorizontal.backward()	)BUT(4, accHorizontal.forward()		)BUT(5, accHorizontal.stop()		)
         BUT(6,	 accRotation.backward()		)BUT(7, accRotation.forward()		)BUT(8, accRotation.stop()			)
         BUT(9,	 setSpeed(2, 5)				)BUT(10,trackedRotation.y() -= 5000	)BUT(11,trackedRotation.y() += 5000	)

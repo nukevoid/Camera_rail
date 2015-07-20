@@ -1,4 +1,23 @@
 
+inline long fastAtan2(long y, long x, long maxValue)
+{
+    const long pi_4 = maxValue  / 4;
+    const long pi_3_4 = maxValue * 3 / 4;
+    if(y>0)
+    {
+        if (x >= 0) 
+            return pi_4 - pi_4 * (x - y) / (x + y);
+        else
+            return pi_3_4 - pi_4 * (x + y) / (y - x);
+    }
+    else
+    {
+        if (x >= 0) 
+            return -pi_4 + pi_4 * (x + y) / (x - y);            
+    }
+    return -pi_3_4 - pi_4 * (x - y) / (y + x);
+}
+
 class TrackedMoving 
 {
 public:
@@ -23,10 +42,10 @@ public:
 
     inline long trackingTarget() const 
     {
-        float xDiff = trackedMotor_.microsteps() - x_;
-        float angle = atan2(y_, xDiff);
-        return angle  / M_PI * halfCicleSize_;
+        long xDiff = x_ - trackedMotor_.microsteps();
+        return fastAtan2(y_, xDiff, halfCicleSize_);
     }
+
 private:
     inline long speedFromTarget(long target) const
     {
@@ -38,6 +57,7 @@ private:
         }
         return speed;
     } 
+
 private:
     Stepper & motor_;
     Stepper & trackedMotor_;

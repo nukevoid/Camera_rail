@@ -31,16 +31,6 @@ void RotationTrackedMode()
     trackedRotation.update();
 }
 
-void DockingMode()
-{
-    accHorizontal.setSpeed(400 * Stepper::MAX_MICROSTEPS, 4);
-    accRotation.setSpeed(400 * Stepper::MAX_MICROSTEPS, 4);
-    accHorizontal.backward();
-    accRotation.backward();
-    accHorizontal.update();
-    accRotation.update();
-}
-
 //----------------------------Commands----------------------------
 void setMode(ModeType newMode)
 {
@@ -53,6 +43,14 @@ void setSpeed(long speed, int stepperMode)
     accRotation.setSpeed(speed * Stepper::MAX_MICROSTEPS, stepperMode);
 }
 
+void dock()
+{
+    accHorizontal.setSpeed(400 * Stepper::MAX_MICROSTEPS, 4);
+    accRotation.setSpeed(400 * Stepper::MAX_MICROSTEPS, 4);
+    accHorizontal.backward();
+    accRotation.backward();
+    setMode(DirectMode);
+}
 //-----------------------------------------------------------------
 void initModes()
 {

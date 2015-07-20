@@ -99,20 +99,19 @@ void TrackedMoving_test_suit()
 	const MotorParams MP_ROTATION =     {5,  4,  0, -1, -1, -1,  0,  0,  REV * 5L};
 	Stepper motorHorizontal(MP_HORIZONTAL);
 	Stepper motorRotation(MP_ROTATION);
-
 	const long HALF_CICLE = REV * 4L;
 	TrackedMoving trackedRotation(motorRotation, motorHorizontal, REV * 2, HALF_CICLE, 0, 1000);
 
 	motorHorizontal.resetMicrosteps(0);
 	QUNIT_IS_EQUAL(trackedRotation.trackingTarget(), HALF_CICLE / 2 );
 	motorHorizontal.resetMicrosteps(1000);
-	QUNIT_IS_EQUAL(trackedRotation.trackingTarget(), HALF_CICLE / 2 - HALF_CICLE / 4);
+	QUNIT_IS_EQUAL(trackedRotation.trackingTarget(), HALF_CICLE / 2 + HALF_CICLE / 4);
 
 
 	TrackedMoving trackedRotation2(motorRotation, motorHorizontal, REV * 2, REV * 4L, 0, REV * 15L);
 
 	motorHorizontal.resetMicrosteps(1000);
-	QUNIT_IS_EQUAL(trackedRotation2.trackingTarget(), 12715);
+	QUNIT_IS_EQUAL(trackedRotation2.trackingTarget(), 12932);
 }
 
 //-------------------------------------- test AcceleratedMoving ------------------------------
