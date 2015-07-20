@@ -24,7 +24,7 @@ public:
     inline long trackingTarget() const 
     {
         float xDiff = trackedMotor_.microsteps() - x_;
-        float angle = atan2(xDiff, y_);
+        float angle = atan2(y_, xDiff);
         return angle  / M_PI * halfCicleSize_ + halfCicleSize_ / 2;
     }
 private:
