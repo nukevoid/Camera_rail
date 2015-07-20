@@ -21,7 +21,6 @@ public:
     ,microsteps_(0)
     ,modeCfc_(1)
     ,speed_(0)
-    ,stepSign_(0)
     ,lastStepTime_(0)
     ,motorDelay_(1000)
     {  
@@ -107,7 +106,7 @@ private:
     {
         if(speed != 0)
         {
-            return MAX_MICROSTEPS * 1000L * 1000L / (abs(speed) * 2L * modeCfc); 
+            return MAX_MICROSTEPS * 1000L * 1000L / (abs(speed) * modeCfc); 
         }else 
         {
             return -1;
@@ -136,8 +135,9 @@ private:
 
     inline void motorMicrostep()
     {
-        digitalWrite(params_.stepPin, stepSign_); 
-        stepSign_ = 1 - stepSign_; //switch 0..1..0..1.. 
+        digitalWrite(params_.stepPin, 1); 
+        delayMicroseconds(5);
+        digitalWrite(params_.stepPin, 0); 
         long timeOffset = timeInStep();
         if(timeOffset >= motorDelay_)
         {
@@ -148,7 +148,7 @@ private:
 
     inline void motorStep()
     {
-        long delta = speed_ > 0 ? stepSign_ : -stepSign_;
+        long delta = speed_ > 0 ? 1 : -1;
         delta *= MAX_MICROSTEPS / modeCfc_;
         if(inBounds(microsteps_ + delta))
         {
@@ -162,7 +162,6 @@ private:
     long microsteps_;
     long modeCfc_;
     long speed_;
-    long stepSign_;
     unsigned long lastStepTime_;
     long motorDelay_;
 };

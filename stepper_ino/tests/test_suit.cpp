@@ -8,7 +8,7 @@ QUnit::UnitTest qunit(std::cerr, QUnit::verbose);
 //-------------------------------------- utils -----------------------------------------------
 void stepper_update_1s(Stepper& motor)
 {
-	for(int i = 0;i < 1001; ++i)
+	for(int i = 0;i < 1000; ++i)
 	{
 		motor.update();
 		timeStep(1000);
@@ -17,19 +17,13 @@ void stepper_update_1s(Stepper& motor)
 
 long stepper_get_stepCount_1s(Stepper& motor)
 {
-	long changeCount = 0;
-	int pinState = pinValue[motor.params().stepPin];
-	for(int i = 0;i < 1001; ++i)
+	long changeCount = pinChangeCount[motor.params().stepPin];
+	for(int i = 0;i < 1000; ++i)
 	{
 		motor.update();
-		if(pinState == LOW && pinValue[motor.params().stepPin] == HIGH)
-		{
-			changeCount ++;
-		}
-		pinState = pinValue[motor.params().stepPin];
 		timeStep(1000);
 	}
-	return changeCount;
+	return (pinChangeCount[motor.params().stepPin] - changeCount) / 2;
 }
 
 //-------------------------------------- test arduino_evn ------------------------------------
@@ -80,16 +74,16 @@ void LineFader_test_suite()
 void modes_test_suite()
 {
 	initModes();
-	setSpeed(64, 1);
+	setSpeed(64, 3);
 	QUNIT_IS_EQUAL(motorHorizontal.speed(), 0);
 	accHorizontal.forward();
-	for(int i = 0;i < 20001; ++i)
+	for(int i = 0;i < 20000; ++i)
 	{
-		updateModes();
 		timeStep(100);
+		updateModes();
 	}
 	QUNIT_IS_EQUAL(motorHorizontal.speed(), 64 * 32);
-	QUNIT_IS_EQUAL(motorHorizontal.microsteps(), 64 * 32);
+	QUNIT_IS_EQUAL(motorHorizontal.microsteps(), 64 * 32 );
 }
 
 //-------------------------------------- test TrackedMoving ----------------------------------
@@ -148,33 +142,34 @@ void  AcceleratedMoving_forward_test()
 	QUNIT_IS_EQUAL(motor.microsteps(), 0);
 	for(int i = 0;i < 1000; ++i)
 	{
+		timeStep(1000);
 		accHorizontal.update();
 		motor.update();
-		timeStep(1000);
+		
 	}
-	accHorizontal.update();
 	QUNIT_IS_EQUAL(motor.speed(), 256);
-	QUNIT_IS_EQUAL(motor.microsteps(), 256 / 2);
+	QUNIT_IS_EQUAL(motor.microsteps(), 256 / 2 + 2);
 	//
 	for(int i = 0;i < 1000; ++i)
 	{
+		timeStep(1000);
 		accHorizontal.update();
 		motor.update();
-		timeStep(1000);
+		
 	}
 	QUNIT_IS_EQUAL(motor.speed(), 256);
-	QUNIT_IS_EQUAL(motor.microsteps(), 256 / 2 + 256);
+	QUNIT_IS_EQUAL(motor.microsteps(), 256 / 2 + 256 + 2);
 	//backward
 	accHorizontal.backward();
 	for(int i = 0;i < 1000; ++i)
 	{
+		timeStep(1000);
 		accHorizontal.update();
 		motor.update();
-		timeStep(1000);
+		
 	}
-	accHorizontal.update();
 	QUNIT_IS_EQUAL(motor.speed(), -256);
-	QUNIT_IS_EQUAL(motor.microsteps(), 256 / 2 + 256);
+	QUNIT_IS_EQUAL(motor.microsteps(), 256 / 2 + 256 + 2);
 }
 
 void AcceleratedMoving_testSuite()
