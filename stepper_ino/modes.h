@@ -8,15 +8,16 @@ typedef void(*ModeType) ();
 ModeType mainMode = NULL;
 const long REV = Stepper::MAX_MICROSTEPS * Stepper::STEP_COUNT;
 //stepPin, dirPin, disablePin, mode0Pin, mode1Pin, mode2Pin, stepCount, minBound, maxBound;
-const MotorParams MP_HORIZONTAL =   {3,  2,  9,  8,  7,  6,  1,  0,  REV * 30L};
-const MotorParams MP_ROTATION =     {5,  4,  0, -1, -1, -1,  0,  0,  REV * 4L};
+const long ROTATION_MOTOR_PATH = REV * 4L + REV * 3 / 4;
+const MotorParams MP_HORIZONTAL =   {3,  2,  9,  8,  7,  6,  1,  0,  REV * 38L};
+const MotorParams MP_ROTATION =     {5,  4,  0, -1, -1, -1,  0,  0,  ROTATION_MOTOR_PATH};
 Stepper motorHorizontal(MP_HORIZONTAL);
 Stepper motorRotation(MP_ROTATION);
 
 AcceleratedMoving accHorizontal(motorHorizontal, REV * 3L, 2000, REV * 3);
 AcceleratedMoving accRotation(motorRotation,  REV * 1L, 2000, REV * 3);
 const long trackedX = (MP_HORIZONTAL.minBound + MP_HORIZONTAL.maxBound) / 2;
-TrackedMoving trackedRotation(motorRotation, motorHorizontal, REV * 2, REV * 4L, trackedX, REV * 15L);
+TrackedMoving trackedRotation(motorRotation, motorHorizontal, REV * 2, MP_ROTATION.maxBound, trackedX, REV * 19L);
 
 //---------------------------- Modes -----------------------------
 void DirectMode()
