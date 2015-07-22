@@ -34,7 +34,7 @@ void onIRValue(int value)
         BUT(9,	 setSpeed(2, 5)				)BUT(10,trackedRotation.y() -= 5000	)BUT(11,trackedRotation.y() += 5000	)
         BUT(12,	 setSpeed(4, 5)				)BUT(13,setSpeed(8, 5)				)BUT(14,setSpeed(16, 5)				)
         BUT(15,	 setSpeed(32, 5)			)BUT(16,setSpeed(50, 5)				)BUT(17,setSpeed(70, 5)				)
-        BUT(18,	 setSpeed(200, 4)			)BUT(19,setSpeed(500, 4)			)BUT(20,setSpeed(700, 4)			)
+        BUT(18,	 setSpeed(200, 4)			)BUT(19,setSpeed(500, 4)			)BUT(20,setSpeed(700, 3)			)
     }
 }
 
