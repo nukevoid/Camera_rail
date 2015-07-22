@@ -3,7 +3,7 @@
 #include "modes.h"
 #include "ir_mapping.h"
 
-const int IR_RECV_PIN = 1;
+const int IR_RECV_PIN = A3;
 
 IRrecv irrecv(IR_RECV_PIN);
 decode_results results;
