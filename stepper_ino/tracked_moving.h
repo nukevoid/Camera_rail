@@ -1,9 +1,9 @@
 
-inline long fastAtan2(long y, long x, long maxValue)
-{
-    const long pi_4 = maxValue  / 4;
-    const long pi_3_4 = maxValue * 3 / 4;
-    if(y>0)
+inline long long  fastAtan2(long y, long x, long maxValue)
+{  
+    const long long pi_4 = maxValue  / 4;
+    const long long pi_3_4 = maxValue * 3 / 4;
+    if(y > 0)
     {
         if (x >= 0) 
             return pi_4 - pi_4 * (x - y) / (x + y);
@@ -17,6 +17,7 @@ inline long fastAtan2(long y, long x, long maxValue)
     }
     return -pi_3_4 - pi_4 * (x - y) / (y + x);
 }
+
 
 class TrackedMoving 
 {

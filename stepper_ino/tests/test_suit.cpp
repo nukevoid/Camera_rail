@@ -74,7 +74,7 @@ void LineFader_test_suite()
 void modes_test_suite()
 {
 	initModes();
-	setSpeed(64, 3);
+	setSpeed(64, 5);
 	QUNIT_IS_EQUAL(motorHorizontal.speed(), 0);
 	accHorizontal.forward();
 	for(int i = 0;i < 20000; ++i)
@@ -83,12 +83,20 @@ void modes_test_suite()
 		updateModes();
 	}
 	QUNIT_IS_EQUAL(motorHorizontal.speed(), 64 * 32);
-	QUNIT_IS_EQUAL(motorHorizontal.microsteps(), 64 * 32 );
+	QUNIT_IS_EQUAL(motorHorizontal.microsteps(), 64 * 32 + 2);
 }
 
 //-------------------------------------- test TrackedMoving ----------------------------------
-void TrackedMoving_test_suit()
-{ 
+
+void TrackedMoving_fastAtan2_test()
+{
+	const long MAX_VALUE = ROTATION_MOTOR_PATH;
+
+	QUNIT_IS_EQUAL( fastAtan2(400000, 0, MAX_VALUE), MAX_VALUE / 2);
+}
+
+void TrackedMoving_trackingTarget_test()
+{
 	const MotorParams MP_HORIZONTAL =   {3,  2,  9,  8,  7,  6,  1,  0,  REV * 30L};
 	const MotorParams MP_ROTATION =     {5,  4,  0, -1, -1, -1,  0,  0,  REV * 5L};
 	Stepper motorHorizontal(MP_HORIZONTAL);
@@ -101,11 +109,16 @@ void TrackedMoving_test_suit()
 	motorHorizontal.resetMicrosteps(1000);
 	QUNIT_IS_EQUAL(trackedRotation.trackingTarget(), HALF_CICLE / 2 + HALF_CICLE / 4);
 
-
 	TrackedMoving trackedRotation2(motorRotation, motorHorizontal, REV * 2, REV * 4L, 0, REV * 15L);
 
 	motorHorizontal.resetMicrosteps(1000);
 	QUNIT_IS_EQUAL(trackedRotation2.trackingTarget(), 12932);
+}
+
+void TrackedMoving_test_suit()
+{ 
+	TrackedMoving_fastAtan2_test();
+	TrackedMoving_trackingTarget_test();
 }
 
 //-------------------------------------- test AcceleratedMoving ------------------------------
@@ -169,7 +182,7 @@ void  AcceleratedMoving_forward_test()
 		
 	}
 	QUNIT_IS_EQUAL(motor.speed(), -256);
-	QUNIT_IS_EQUAL(motor.microsteps(), 256 / 2 + 256 + 2);
+	QUNIT_IS_EQUAL(motor.microsteps(), 256 / 2 + 256 - 2);
 }
 
 void AcceleratedMoving_testSuite()
