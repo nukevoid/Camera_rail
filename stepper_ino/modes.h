@@ -7,7 +7,7 @@
 typedef void(*ModeType) ();
 ModeType mainMode = NULL;
 const long REV = Stepper::MAX_MICROSTEPS * Stepper::STEP_COUNT;
-//stepPin, dirPin, disablePin, mode0Pin, mode1Pin, mode2Pin, stepCount, minBound, maxBound;
+//stepPin, dirPin, disablePin, mode0Pin, mode1Pin, mode2Pin, invert, minBound, maxBound;
 const long ROTATION_MOTOR_PATH = REV * 4L + REV * 3 / 4;
 const MotorParams MP_HORIZONTAL =   {3,  2,  9,  8,  7,  6,  1,  0,  REV * 38L};
 const MotorParams MP_ROTATION =     {5,  4,  0, -1, -1, -1,  0,  0,  ROTATION_MOTOR_PATH};
