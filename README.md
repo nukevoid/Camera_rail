@@ -4,7 +4,7 @@ Camera rail --- automatic rail for video camera with shift and rotation axis. Us
 
 https://youtu.be/ZoX3ABmoInI
 
-Chematic: https://123d.circuits.io/circuits/921441-camera-rail
+Schematic: https://123d.circuits.io/circuits/921441-camera-rail
 
 ![](https://github.com/nukevoid/Camera_rail/blob/master/docs/back.jpg)
 ![](https://github.com/nukevoid/Camera_rail/blob/master/docs/front.jpg)
